@@ -1,48 +1,54 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblSubCategoryMemberships', {
+    await queryInterface.createTable("tblSubCategoryMemberships", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       subCategoryMembership: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       categoryMembershipId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       startPromo: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       endPromo: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       access: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       adminFee: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       activeFlag: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       isMainPackage: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
+      },
+      isPremium: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblSubCategoryMemberships');
-  }
+    await queryInterface.dropTable("tblSubCategoryMemberships");
+  },
 };

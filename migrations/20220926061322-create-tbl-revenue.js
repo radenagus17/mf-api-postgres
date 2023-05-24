@@ -1,90 +1,90 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblRevenues', {
+    await queryInterface.createTable("tblRevenues", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       memberId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       dateActiveMembership: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       activeMembershipExpired: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       keterangan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       packageBefore: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       packageAfter: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       times: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       debit: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       kredit: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       saldo_member: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       pending_saldo: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       is_event: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       last_kredited: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       dateActivePT: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       activePtExpired: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       packagePT: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       timesPT: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       PTTerpakai: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       isDone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       pricePT: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblRevenues');
-  }
+    await queryInterface.dropTable("tblRevenues");
+  },
 };

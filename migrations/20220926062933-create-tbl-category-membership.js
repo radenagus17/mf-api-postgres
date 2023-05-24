@@ -1,33 +1,30 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblCategoryMemberships', {
-      id: {
+    await queryInterface.createTable("tblCategoryMemberships", {
+      categoryMembershipId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      categoryMembershipId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       categoryMembership: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       mainPackageId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblCategoryMemberships');
-  }
+    await queryInterface.dropTable("tblCategoryMemberships");
+  },
 };

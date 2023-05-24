@@ -1,51 +1,48 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblClassPts', {
-      id: {
+    await queryInterface.createTable("tblClassPts", {
+      classPtId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      classPtId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       ptId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       time: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       date: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       week: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       month: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       year: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       linkZoom: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       isOnline: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblClassPts');
-  }
+    await queryInterface.dropTable("tblClassPts");
+  },
 };

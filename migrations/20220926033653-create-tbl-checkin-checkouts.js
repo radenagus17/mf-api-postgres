@@ -1,57 +1,54 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblCheckinCheckouts', {
-      id: {
+    await queryInterface.createTable("tblCheckinCheckouts", {
+      checkId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      checkId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       adminCheckin: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       adminCheckout: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       checkinTime: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       checkoutTime: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       lockerKey: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       isReservation: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       reservationTime: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       noBottle: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblCheckinCheckouts');
-  }
+    await queryInterface.dropTable("tblCheckinCheckouts");
+  },
 };

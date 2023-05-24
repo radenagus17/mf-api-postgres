@@ -1,33 +1,33 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblCancelReservations', {
+    await queryInterface.createTable("tblCancelReservations", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       memberId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       reservationDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       reservationTime: {
-        type: Sequelize.STRING
+        type: Sequelize.TIME,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblCancelReservations');
-  }
+    await queryInterface.dropTable("tblCancelReservations");
+  },
 };

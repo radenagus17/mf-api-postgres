@@ -1,45 +1,45 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblHistoryPTs', {
+    await queryInterface.createTable("tblHistoryPTs", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       classPtId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       catatan: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       hasJoined: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN,
       },
       PTCommission: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       transactionId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       revenueId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblHistoryPTs');
-  }
+    await queryInterface.dropTable("tblHistoryPTs");
+  },
 };

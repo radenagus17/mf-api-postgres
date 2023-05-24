@@ -1,60 +1,57 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblClasses', {
+    await queryInterface.createTable("tblClasses", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       ptId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       timeIn: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       timeOut: {
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
       },
       date: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       week: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       month: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       year: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       linkZoom: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       color: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       subCategoryMembershipId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       limit: {
-        type: Sequelize.INTEGER
-      },
-      isPremium: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblClasses');
-  }
+    await queryInterface.dropTable("tblClasses");
+  },
 };

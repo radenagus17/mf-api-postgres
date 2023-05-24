@@ -1,39 +1,66 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblPromos', {
+    await queryInterface.createTable("tblPromos", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      code: {
+        type: Sequelize.STRING,
       },
       poster: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      phone: {
-        type: Sequelize.STRING
+      periodeStart: {
+        type: Sequelize.DATE,
       },
-      address: {
-        type: Sequelize.STRING
+      periodeEnd: {
+        type: Sequelize.DATE,
       },
-      promo: {
-        type: Sequelize.STRING
+      typeVoucher: {
+        type: Sequelize.STRING,
+      },
+      discountMax: {
+        type: Sequelize.INTEGER,
+      },
+      minimumPurchase: {
+        type: Sequelize.INTEGER,
+      },
+      usageQuota: {
+        type: Sequelize.INTEGER,
+      },
+      forAll: {
+        type: Sequelize.BOOLEAN,
+      },
+      nominal: {
+        type: Sequelize.INTEGER,
+      },
+      keterangan: {
+        type: Sequelize.STRING,
+      },
+      canCombine: {
+        type: Sequelize.BOOLEAN,
+      },
+      isUnlimited: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblPromos');
-  }
+    await queryInterface.dropTable("tblPromos");
+  },
 };

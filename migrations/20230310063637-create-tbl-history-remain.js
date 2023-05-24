@@ -1,37 +1,43 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblHistoryRemains', {
+    await queryInterface.createTable("tblHistoryRemains", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       memberId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      idClass: {
+        type: Sequelize.INTEGER,
       },
       sisaKelasPremium: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       sisaKelasBasic: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       sisaPT: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      expiredDate: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblHistoryRemains');
-  }
+    await queryInterface.dropTable("tblHistoryRemains");
+  },
 };

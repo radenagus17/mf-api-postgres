@@ -1,45 +1,44 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tblPackageMemberships', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
+    await queryInterface.createTable("tblPackageMemberships", {
       packageMembershipId: {
-        type: Sequelize.STRING
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.STRING,
       },
       package: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       subCategoryMembershipId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       times: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       activeMember: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       sessionPtHours: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      classUsed: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tblPackageMemberships');
-  }
+    await queryInterface.dropTable("tblPackageMemberships");
+  },
 };
