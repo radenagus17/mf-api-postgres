@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/radenagus17/rev-megafit-api#readme",
   "dependencies": {
+    "@railway/cli": "^3.3.1",
     "axios": "^1.1.3",
     "bcryptjs": "^2.4.3",
     "convert-excel-to-json": "^1.7.0",

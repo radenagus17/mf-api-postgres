@@ -1,6 +1,5 @@
 node_modules
 .env
-config
 qr
 uploads
 package-lock.json
