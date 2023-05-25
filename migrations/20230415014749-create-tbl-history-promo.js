@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       idVoucher: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       claimDate: {
         type: Sequelize.DATE,

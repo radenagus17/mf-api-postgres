@@ -1048,15 +1048,21 @@ class usersController {
               { where: { userId: detailMember.userId } }
             );
 
-            detailMember.flagActive = 0;
+            detailMember.flagActive = false;
           }
 
           let checkLockerkey = await tblCheckinCheckouts.findOne({
-            where: { userId: detailMember.userId, lockerKey: { [Op.ne]: 0 } },
+            where: {
+              userId: detailMember.userId,
+              lockerKey: { [Op.not]: null },
+            },
           });
 
           let checkNoBottle = await tblCheckinCheckouts.findOne({
-            where: { userId: detailMember.userId, noBottle: { [Op.ne]: 0 } },
+            where: {
+              userId: detailMember.userId,
+              noBottle: { [Op.not]: null },
+            },
           });
 
           if (checkLockerkey != null) {
@@ -1090,11 +1096,14 @@ class usersController {
                 { where: { userId: detailUser.userId } }
               );
 
-              detailUser.flagActive = 0;
+              detailUser.flagActive = false;
             }
 
             let checkLockerkey = await tblCheckinCheckouts.findOne({
-              where: { userId: detailUser.userId, lockerKey: { [Op.ne]: 0 } },
+              where: {
+                userId: detailUser.userId,
+                lockerKey: { [Op.not]: false },
+              },
             });
 
             if (checkLockerkey != null) {
