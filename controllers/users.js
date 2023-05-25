@@ -323,10 +323,10 @@ class usersController {
         if (error) {
           console.log("GAGAL");
           console.log(error);
-          return res.status(400).json({ message: "failed" });
+          res.status(400).json({ message: "failed" });
         } else {
           console.log("Berhasil");
-          return res.status(200).json({ message: "success" });
+          res.status(200).json({ message: "success" });
         }
       });
     } catch (err) {
