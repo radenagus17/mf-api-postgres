@@ -1156,8 +1156,8 @@ class usersController {
               where: {
                 userId: detailUser.userId,
                 [Op.or]: [
-                  { lockerKey: { [Op.ne]: 0 } },
-                  { noBottle: { [Op.ne]: 0 } },
+                  { lockerKey: { [Op.not]: null } },
+                  { noBottle: { [Op.not]: null } },
                 ],
               },
             });

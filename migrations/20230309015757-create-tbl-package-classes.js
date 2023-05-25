@@ -15,8 +15,11 @@ module.exports = {
       subCategoryMembershipId: {
         type: Sequelize.INTEGER,
       },
+      activeDate: {
+        type: Sequelize.DATEONLY,
+      },
       expiredDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       classSession: {
         type: Sequelize.INTEGER,
