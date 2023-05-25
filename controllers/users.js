@@ -297,38 +297,38 @@ class usersController {
       }
       if (findNew) res.status(201).json({ message: "Success", data: findNew });
 
-      mailOptions.to = email;
-      mailOptions.subject = "Selamat bergabung di Megafit";
-      mailOptions.html = `
-			<img src="${baseUrlServer}/asset/img/pola-megafit_black.png" height="30" width="200" alt="logo-megafit" />
-				<p style="font-size: 20px; margin-bottom: 10px;"><b>Hai ${nickname}!</b></p>
-				<p style="margin:10px 0px;">Terima kasih telah melakukan pendaftaran di <a href="http://megafit.co.id"> megafit.co.id</a></p>
-				
-				<p style="margin:10px 0px 10px 5px;">Berikut Username dan Password anda:</p>
-				<p style="margin:10px 0px 5px 5px;">Username: ${username}</p>
-				<p style="margin:5px 0px 10px 5px;">Password: ${password}</p>
-				
-				<p style="margin:10px 0px 20px 5px;">Ayo segera login dan buat reservasi untuk memulai perjalanan hidup sehat anda</p>
+      // mailOptions.to = email;
+      // mailOptions.subject = "Selamat bergabung di Megafit";
+      // mailOptions.html = `
+      // <img src="${baseUrlServer}/asset/img/pola-megafit_black.png" height="30" width="200" alt="logo-megafit" />
+      // 	<p style="font-size: 20px; margin-bottom: 10px;"><b>Hai ${nickname}!</b></p>
+      // 	<p style="margin:10px 0px;">Terima kasih telah melakukan pendaftaran di <a href="http://megafit.co.id"> megafit.co.id</a></p>
 
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				<div style="text-align:center;font-size: small;">
-				<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
-				</div>
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				
-				${footerMail}
-				`;
+      // 	<p style="margin:10px 0px 10px 5px;">Berikut Username dan Password anda:</p>
+      // 	<p style="margin:10px 0px 5px 5px;">Username: ${username}</p>
+      // 	<p style="margin:5px 0px 10px 5px;">Password: ${password}</p>
 
-      await transporter.sendMail(mailOptions, function (error) {
-        if (error) {
-          console.log("GAGAL");
-          console.log(error);
-          res.status(400).json({ message: "failed" });
-        } else {
-          console.log("Berhasil");
-          res.status(200).json({ message: "success" });
-        }
-      });
+      // 	<p style="margin:10px 0px 20px 5px;">Ayo segera login dan buat reservasi untuk memulai perjalanan hidup sehat anda</p>
+
+      // 	<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+      // 	<div style="text-align:center;font-size: small;">
+      // 	<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
+      // 	</div>
+      // 	<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+
+      // 	${footerMail}
+      // 	`;
+
+      // await transporter.sendMail(mailOptions, function (error) {
+      //   if (error) {
+      //     console.log("GAGAL");
+      //     console.log(error);
+      //     res.status(400).json({ message: "failed" });
+      //   } else {
+      //     console.log("Berhasil");
+      //     res.status(200).json({ message: "success" });
+      //   }
+      // });
     } catch (err) {
       next(err);
     }
