@@ -1,7 +1,7 @@
 const url = require("url");
 const nodemailer = require("nodemailer");
 
-const baseUrlServer = "http://103.150.191.191";
+const baseUrlServer = "https://mf-api-postgres-production.up.railway.app";
 const baseUrlClient = "http://megafit.co.id";
 
 let transporter = nodemailer.createTransport({

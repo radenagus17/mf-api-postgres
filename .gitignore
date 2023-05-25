@@ -1,7 +1,5 @@
 node_modules
 .env
-qr
-uploads
 package-lock.json
 yarn.lock
 .pnp.loader.mjs

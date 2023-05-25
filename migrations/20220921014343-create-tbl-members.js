@@ -2,7 +2,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("tblMembers", {
-      memeberId: {
+      memberId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -26,7 +26,7 @@ module.exports = {
       lastCheckin: {
         type: Sequelize.DATE,
       },
-      packageMemberId: {
+      packageMembershipId: {
         type: Sequelize.STRING,
       },
       hasConfirmTermAndCondition: {
