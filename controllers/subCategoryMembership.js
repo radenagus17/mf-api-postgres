@@ -1,11 +1,18 @@
-const { tblPackageMemberships, tblSubCategoryMembership, tblCategoryMembership } = require("../models");
+const {
+  tblPackageMemberships,
+  tblSubCategoryMembership,
+  tblCategoryMembership,
+} = require("../models");
 const Op = require("sequelize").Op;
 
 class subCategoryMembership {
   static async create(req, res, next) {
     try {
       if (Number(req.body.isMainPackage) === 1) {
-        await tblSubCategoryMembership.update({ isMainPackage: 0 }, { where: { categoryMembershipId: req.body.categoryMembershipId } });
+        await tblSubCategoryMembership.update(
+          { isMainPackage: false },
+          { where: { categoryMembershipId: req.body.categoryMembershipId } }
+        );
       }
       let subCategoryMemberships = await tblSubCategoryMembership.create({
         subCategoryMembership: req.body.package,
@@ -14,13 +21,16 @@ class subCategoryMembership {
         endPromo: req.body.endPromo,
         access: req.body.access,
         adminFee: req.body.adminFee || 0,
-        activeFlag: 1,
+        activeFlag: true,
         isMainPackage: req.body.isMainPackage,
         isPremium: req.body.isPremium,
       });
 
       if (Number(req.body.isMainPackage) === 1) {
-        await tblCategoryMembership.update({ mainPackageId: subCategoryMemberships.id }, { where: { categoryMembershipId: req.body.categoryMembershipId } });
+        await tblCategoryMembership.update(
+          { mainPackageId: subCategoryMemberships.id },
+          { where: { categoryMembershipId: req.body.categoryMembershipId } }
+        );
       }
 
       let newPackageMembership = {
@@ -30,9 +40,13 @@ class subCategoryMembership {
         price: req.body.price,
         activeMember: 0,
         times: req.body.times,
-        classUsed: req.body.classUsed
+        classUsed: req.body.classUsed,
       };
-      if (Number(req.body.categoryMembershipId) === 2 || Number(req.body.categoryMembershipId) === 5) newPackageMembership.sessionPtHours = req.body.sessionPtHours;
+      if (
+        Number(req.body.categoryMembershipId) === 2 ||
+        Number(req.body.categoryMembershipId) === 5
+      )
+        newPackageMembership.sessionPtHours = req.body.sessionPtHours;
 
       await tblPackageMemberships.create(newPackageMembership);
 
@@ -58,7 +72,9 @@ class subCategoryMembership {
       //   await tblPackageMemberships.update(newPackageMembership, { where: { packageMembershipId: req.body.packageMembershipId } });
       // });
 
-      res.status(201).json({ message: "Success", data: subCategoryMemberships });
+      res
+        .status(201)
+        .json({ message: "Success", data: subCategoryMemberships });
     } catch (error) {
       next(error);
     }
@@ -68,7 +84,11 @@ class subCategoryMembership {
     try {
       let data = await tblSubCategoryMembership.findAll({
         where: {
-          [Op.or]: [{ categoryMembershipId: 2 }, { categoryMembershipId: 4 }, { categoryMembershipId: 5 }],
+          [Op.or]: [
+            { categoryMembershipId: 2 },
+            { categoryMembershipId: 4 },
+            { categoryMembershipId: 5 },
+          ],
           isMainPackage: true,
           activeFlag: true,
         },
@@ -88,7 +108,7 @@ class subCategoryMembership {
         data = await tblSubCategoryMembership.findAll({
           where: {
             categoryMembershipId: req.query.category,
-            activeFlag: 1,
+            activeFlag: true,
           },
           include: [
             {
@@ -106,7 +126,10 @@ class subCategoryMembership {
         });
       }
 
-      if (data) res.status(200).json({ message: "Success", totalRecord: data.length, data });
+      if (data)
+        res
+          .status(200)
+          .json({ message: "Success", totalRecord: data.length, data });
     } catch (error) {
       next(error);
     }
@@ -136,7 +159,10 @@ class subCategoryMembership {
   static async update(req, res, next) {
     try {
       if (Number(req.body.isMainPackage) === 1) {
-        await tblSubCategoryMembership.update({ isMainPackage: 0 }, { where: { categoryMembershipId: req.body.categoryMembershipId } });
+        await tblSubCategoryMembership.update(
+          { isMainPackage: 0 },
+          { where: { categoryMembershipId: req.body.categoryMembershipId } }
+        );
       }
 
       //Update Sub category
@@ -156,10 +182,15 @@ class subCategoryMembership {
       );
 
       if (Number(req.body.isMainPackage) === 1) {
-        await tblCategoryMembership.update({ mainPackageId: req.params.id }, { where: { categoryMembershipId: req.body.categoryMembershipId } });
+        await tblCategoryMembership.update(
+          { mainPackageId: req.params.id },
+          { where: { categoryMembershipId: req.body.categoryMembershipId } }
+        );
       }
 
-      let dataPackageMembership = await tblPackageMemberships.findOne({where:{package: req.body.package}})
+      let dataPackageMembership = await tblPackageMemberships.findOne({
+        where: { package: req.body.package },
+      });
 
       //Update Package
       let newPackageMembership = {
@@ -168,12 +199,19 @@ class subCategoryMembership {
         subCategoryMembershipId: req.params.id,
         price: req.body.price,
         times: req.body.times,
-        classUsed: req.body.classUsed
+        classUsed: req.body.classUsed,
       };
-      if (Number(req.body.categoryMembershipId) === 2 || Number(req.body.categoryMembershipId) === 5) newPackageMembership.sessionPtHours = req.body.sessionPtHours;
+      if (
+        Number(req.body.categoryMembershipId) === 2 ||
+        Number(req.body.categoryMembershipId) === 5
+      )
+        newPackageMembership.sessionPtHours = req.body.sessionPtHours;
 
-      await tblPackageMemberships.update(newPackageMembership, { where: { packageMembershipId: dataPackageMembership.packageMembershipId } })
-
+      await tblPackageMemberships.update(newPackageMembership, {
+        where: {
+          packageMembershipId: dataPackageMembership.packageMembershipId,
+        },
+      });
 
       // if (req.body.packageMembershipId) {
       //   //Update Package
@@ -229,7 +267,9 @@ class subCategoryMembership {
       //   });
       // }
 
-      let dataReturn = await tblSubCategoryMembership.findByPk(req.params.id, {include: { model: tblPackageMemberships },});
+      let dataReturn = await tblSubCategoryMembership.findByPk(req.params.id, {
+        include: { model: tblPackageMemberships },
+      });
       if (!subCategoryMemberships) throw { name: "notFound" };
       res.status(200).json({ message: "Success", data: dataReturn });
     } catch (error) {

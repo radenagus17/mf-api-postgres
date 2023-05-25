@@ -1,4 +1,7 @@
-const { tblPackageMemberships, tblSubCategoryMembership } = require("../models");
+const {
+  tblPackageMemberships,
+  tblSubCategoryMembership,
+} = require("../models");
 
 class packageMembership {
   static async create(req, res, next) {
@@ -11,9 +14,15 @@ class packageMembership {
         activeMember: 0,
         times: req.body.times,
       };
-      if (Number(req.body.categoryMembershipId) === 2 || Number(req.body.categoryMembershipId) === 5) newPackageMembership.sessionPtHours = req.body.sessionPtHours;
+      if (
+        Number(req.body.categoryMembershipId) === 2 ||
+        Number(req.body.categoryMembershipId) === 5
+      )
+        newPackageMembership.sessionPtHours = req.body.sessionPtHours;
 
-      let createPackageMember = await tblPackageMemberships.create(newPackageMembership);
+      let createPackageMember = await tblPackageMemberships.create(
+        newPackageMembership
+      );
       res.status(201).json({ message: "Success", data: createPackageMember });
     } catch (error) {
       next(error);
@@ -28,7 +37,7 @@ class packageMembership {
           include: [
             {
               model: tblSubCategoryMembership,
-              where: { activeFlag: 1 },
+              where: { activeFlag: true },
             },
           ],
           order: [
@@ -42,7 +51,7 @@ class packageMembership {
           include: [
             {
               model: tblSubCategoryMembership,
-              where: { activeFlag: 1 },
+              where: { activeFlag: true },
             },
           ],
           order: [
@@ -52,7 +61,10 @@ class packageMembership {
           ],
         });
       }
-      if (data) res.status(200).json({ message: "Success", totalRecord: data.length, data });
+      if (data)
+        res
+          .status(200)
+          .json({ message: "Success", totalRecord: data.length, data });
     } catch (error) {
       next(error);
     }
@@ -87,7 +99,11 @@ class packageMembership {
         price: req.body.price,
         times: req.body.times,
       };
-      if (Number(req.body.categoryMembershipId) === 2 || Number(req.body.categoryMembershipId) === 5) newPackageMembership.sessionPtHours = req.body.sessionPtHours;
+      if (
+        Number(req.body.categoryMembershipId) === 2 ||
+        Number(req.body.categoryMembershipId) === 5
+      )
+        newPackageMembership.sessionPtHours = req.body.sessionPtHours;
 
       await tblPackageMemberships.update(newPackageMembership, {
         where: { packageMembershipId: req.params.id },
