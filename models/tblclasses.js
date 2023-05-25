@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      tblClasses.belongsTo(models.tblSubCategoryMembership, { foreignKey: "subCategoryMembershipId" });
+      tblClasses.belongsTo(models.tblSubCategoryMembership, {
+        foreignKey: "subCategoryMembershipId",
+      });
       tblClasses.belongsTo(models.tblUser, { foreignKey: "ptId" });
       tblClasses.hasMany(models.tblHistoryClasses, { foreignKey: "classId" });
       // tblClasses.hasMany(models.tblMember, { foreignKey: "classId" });
@@ -19,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       ptId: {
         type: DataTypes.INTEGER,
-        unique: false
+        unique: false,
       },
       timeIn: DataTypes.TIME,
       timeOut: DataTypes.TIME,

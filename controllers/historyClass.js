@@ -1,4 +1,19 @@
-const { tblClassPt, tblUser, tblHistoryPT, tblMember, tblTransaction, tblOrderList, tblPackageMemberships, tblRevenue, tblStaff, tblHistoryClasses, tblClasses, tblPackageClasses, tblSubCategoryMembership } = require("../models");
+const {
+  tblClassPt,
+  tblUser,
+  tblHistoryPT,
+  tblMember,
+  tblTransaction,
+  tblOrderList,
+  tblPackageMemberships,
+  tblRevenue,
+  tblStaff,
+  tblHistoryClasses,
+  tblClasses,
+  tblPackageClasses,
+  tblSubCategoryMembership,
+  sequelize,
+} = require("../models");
 const Op = require("sequelize").Op;
 const { QueryTypes } = require("sequelize");
 const { getWeek } = require("../helpers/getNumberOfWeek");
@@ -6,9 +21,9 @@ const { createDateAsUTC } = require("../helpers/convertDate");
 
 class historyClassController {
   static async findAll(req, res, next) {
-    let data
+    let data;
     try {
-      if(req.query.history_member === "true"){
+      if (req.query.history_member === "true") {
         data = await tblHistoryClasses.findAll({
           where: {
             userId: req.query.userId ? req.query.userId : req.user.userId,
@@ -16,7 +31,10 @@ class historyClassController {
           include: [
             {
               model: tblClasses,
-              include: [{ model: tblUser },{ model: tblSubCategoryMembership }],
+              include: [
+                { model: tblUser },
+                { model: tblSubCategoryMembership },
+              ],
             },
           ],
         });
@@ -26,9 +44,9 @@ class historyClassController {
         await data.sort(compareWeek);
         await data.sort(compareMonth);
         await data.sort(compareYear);
-      }else{
-        data = await tblHistoryClasses.sequelize.query(
-          "SELECT tblHistoryClasses.userId,tblUsers.fullname AS `PT`,tblSubCategoryMemberships.subCategoryMembership AS `className`,tblClasses.id AS `classId`,tblClasses.timeIn,tblClasses.timeOut,tblClasses.date,tblClasses.month,tblClasses.week,tblClasses.year FROM `tblHistoryClasses` INNER JOIN `tblClasses` ON `tblClasses`.`id` = `tblHistoryClasses`.`classId` INNER JOIN `tblUsers` ON `tblClasses`.`ptId` = `tblUsers`.`userId` INNER JOIN `tblSubCategoryMemberships` ON `tblClasses`.`subCategoryMembershipId` = `tblSubCategoryMemberships`.`id` WHERE `tblClasses`.`date` = $1 AND `tblClasses`.`month` = $2 AND `tblClasses`.`year` = $3",
+      } else {
+        data = await tblUser.sequelize.query(
+          'SELECT "tblHistoryClasses"."userId","tblUsers"."fullname" AS "PT","tblSubCategoryMemberships"."subCategoryMembership" AS "className","tblClasses"."id" AS "classId","tblClasses"."timeIn","tblClasses"."timeOut","tblClasses"."date","tblClasses"."month","tblClasses"."week","tblClasses"."year" FROM "tblHistoryClasses" INNER JOIN "tblClasses" ON "tblClasses"."id" = "tblHistoryClasses"."classId" INNER JOIN "tblUsers" ON "tblClasses"."ptId" = "tblUsers"."userId" INNER JOIN "tblSubCategoryMemberships" ON "tblClasses"."subCategoryMembershipId" = "tblSubCategoryMemberships"."id" WHERE "tblClasses"."date" = $1 AND "tblClasses"."month" = $2 AND "tblClasses"."year" = $3',
           {
             bind: [req.query.date, req.query.month, req.query.year],
             raw: true,
@@ -36,9 +54,11 @@ class historyClassController {
           }
         );
       }
-      res.status(200).json({ message: "Success", totalRecord: data.length, data });
+      res
+        .status(200)
+        .json({ message: "Success", totalRecord: data.length, data });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }
@@ -93,4 +113,4 @@ function compareTime(a, b) {
   return 0;
 }
 
-module.exports = historyClassController
+module.exports = historyClassController;

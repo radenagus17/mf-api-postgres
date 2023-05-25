@@ -647,94 +647,94 @@ class TransactionController {
         let user = await tblUser.findByPk(member.userId);
         let order = "";
 
-        await transaction.tblOrderLists.forEach((element) => {
-          order =
-            order +
-            `<div style="display:flex;margin-left:30px;">
-						<div style="width:350px;">
-							<p style="margin:5px;margin-left: 0px;">${
-                element.tblPackageMembership.package
-              } ${element.tblPackageMembership.times} ${
-              element.categoryMembershipId !== 2 ||
-              element.categoryMembershipId !== 2
-                ? "Hari"
-                : "Sesi"
-            }</p>
-						</div>
-						<div>
-							<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
-                element.totalPrice
-              )}</p>
-						</div>
-					</div>`;
-        });
+        // await transaction.tblOrderLists.forEach((element) => {
+        //   order =
+        //     order +
+        //     `<div style="display:flex;margin-left:30px;">
+        // 		<div style="width:350px;">
+        // 			<p style="margin:5px;margin-left: 0px;">${
+        //         element.tblPackageMembership.package
+        //       } ${element.tblPackageMembership.times} ${
+        //       element.categoryMembershipId !== 2 ||
+        //       element.categoryMembershipId !== 2
+        //         ? "Hari"
+        //         : "Sesi"
+        //     }</p>
+        // 		</div>
+        // 		<div>
+        // 			<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
+        //         element.totalPrice
+        //       )}</p>
+        // 		</div>
+        // 	</div>`;
+        // });
 
-        mailOptions.to = user.email;
-        mailOptions.subject = "Terima kasih atas transaksi di Megafit";
-        mailOptions.html = `
-				<img src="http://209.97.175.174:3000/asset/img/pola-megafit_black.png" height="30" width="150" alt="logo-megafit" />
-				<p style="font-size: 20px;margin-bottom: 5px;"><b>Terima kasih telah belanja di Megafit</b></p>
-				<p style="margin:0px 0px 10px 0px;color:#91c640">Lebih sedikit kertas, lebih hijau! Pilihan Megarangers membuat dunia lebih baik.</p>
+        // mailOptions.to = user.email;
+        // mailOptions.subject = "Terima kasih atas transaksi di Megafit";
+        // mailOptions.html = `
+        // <img src="http://209.97.175.174:3000/asset/img/pola-megafit_black.png" height="30" width="150" alt="logo-megafit" />
+        // <p style="font-size: 20px;margin-bottom: 5px;"><b>Terima kasih telah belanja di Megafit</b></p>
+        // <p style="margin:0px 0px 10px 0px;color:#91c640">Lebih sedikit kertas, lebih hijau! Pilihan Megarangers membuat dunia lebih baik.</p>
 
-				<p style="margin:15px 0px;"><b>Berikut merupakan detil pembelian di Megafit pada tanggal ${getDate(
-          new Date(transaction.createdAt)
-        )}</b></p>
+        // <p style="margin:15px 0px;"><b>Berikut merupakan detil pembelian di Megafit pada tanggal ${getDate(
+        //   new Date(transaction.createdAt)
+        // )}</b></p>
 
-				<div id="table-order" style="margin-bottom: 20px;">
-					<div style="background-color:#dcdcdc;padding:10px 30px;margin-top:20px;width:500px">
-						<p style="margin:0px;"><b>Invoice No: ${salesInvoice}</b></p>
-					</div>
-					<p style="margin: 10px 0px 10px 30px;"><b>Paket dipilih</b></p>
+        // <div id="table-order" style="margin-bottom: 20px;">
+        // 	<div style="background-color:#dcdcdc;padding:10px 30px;margin-top:20px;width:500px">
+        // 		<p style="margin:0px;"><b>Invoice No: ${salesInvoice}</b></p>
+        // 	</div>
+        // 	<p style="margin: 10px 0px 10px 30px;"><b>Paket dipilih</b></p>
 
-					${order}
+        // 	${order}
 
-					<div style="display:flex;margin-left:30px;">
-						<div style="width:350px;">
-							<p style="margin:5px;margin-left: 0px;">Admin Fee</p>
-						</div>
-						<div>
-							<p style="margin:5px;margin-left: 0px;">Rp ${
-                transaction.admPrice ? convertRupiah(transaction.admPrice) : 0
-              }</p>
-						</div>
-					</div>
-					<div style="border-top:1px solid #aaa;font-size:0;margin:8px 30px;width: 500px;"></div>
-					<div style="display:flex;margin-left:30px;">
-						<div style="width:350px;">
-							<p style="margin:5px;margin-left: 0px;">Total</p>
-						</div>
-						<div>
-							<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
-                transaction.amount
-              )}</p>
-						</div>
-					</div>
-				</div>
+        // 	<div style="display:flex;margin-left:30px;">
+        // 		<div style="width:350px;">
+        // 			<p style="margin:5px;margin-left: 0px;">Admin Fee</p>
+        // 		</div>
+        // 		<div>
+        // 			<p style="margin:5px;margin-left: 0px;">Rp ${
+        //         transaction.admPrice ? convertRupiah(transaction.admPrice) : 0
+        //       }</p>
+        // 		</div>
+        // 	</div>
+        // 	<div style="border-top:1px solid #aaa;font-size:0;margin:8px 30px;width: 500px;"></div>
+        // 	<div style="display:flex;margin-left:30px;">
+        // 		<div style="width:350px;">
+        // 			<p style="margin:5px;margin-left: 0px;">Total</p>
+        // 		</div>
+        // 		<div>
+        // 			<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
+        //         transaction.amount
+        //       )}</p>
+        // 		</div>
+        // 	</div>
+        // </div>
 
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				<div style="text-align:center;font-size: small;">
-					<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
-				</div>
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				<p style="font-size: x-small;">* Transaksi sukses tidak bisa dibatalkan dan uang yang telah dibayarkan tidak bisa dikembalikan.</p>
-				<p style="font-size: x-small;">* Email ini dikirimkan ke ${
-          mailOptions.to
-        } karena kamu telah memilih untuk menerima salinan tanda terima elektronik.</p>
+        // <div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+        // <div style="text-align:center;font-size: small;">
+        // 	<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
+        // </div>
+        // <div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+        // <p style="font-size: x-small;">* Transaksi sukses tidak bisa dibatalkan dan uang yang telah dibayarkan tidak bisa dikembalikan.</p>
+        // <p style="font-size: x-small;">* Email ini dikirimkan ke ${
+        //   mailOptions.to
+        // } karena kamu telah memilih untuk menerima salinan tanda terima elektronik.</p>
 
-				${footerMail}
-				`;
+        // ${footerMail}
+        // `;
 
-        await transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log("GAGAL");
-            console.log(error);
-          } else {
-            console.log(mailOptions.to);
-            console.log("Berhasil");
-          }
-        });
+        // await transporter.sendMail(mailOptions, function (error, info) {
+        //   if (error) {
+        //     console.log("GAGAL");
+        //     console.log(error);
+        //   } else {
+        //     console.log(mailOptions.to);
+        //     console.log("Berhasil");
+        //   }
+        // });
 
-        await rememberExtendPackage(req.body.memberId);
+        // await rememberExtendPackage(req.body.memberId);
       }
     } catch (error) {
       next(error);
@@ -1175,72 +1175,72 @@ class TransactionController {
 					</div>`;
           });
 
-          mailOptions.to = user.email;
-          mailOptions.subject = "Terima kasih atas transaksi di Megafit";
-          mailOptions.html = `
-				<img src="http://209.97.175.174:3000/asset/img/pola-megafit_black.png" height="30" width="150" alt="logo-megafit" />
-				<p style="font-size: 20px;margin-bottom: 5px;"><b>Terima kasih telah belanja di Megafit</b></p>
-				<p style="margin:0px 0px 10px 0px;color:#91c640">Lebih sedikit kertas, lebih hijau! Pilihan Megarangers membuat dunia lebih baik.</p>
+          //   mailOptions.to = user.email;
+          //   mailOptions.subject = "Terima kasih atas transaksi di Megafit";
+          //   mailOptions.html = `
+          // <img src="http://209.97.175.174:3000/asset/img/pola-megafit_black.png" height="30" width="150" alt="logo-megafit" />
+          // <p style="font-size: 20px;margin-bottom: 5px;"><b>Terima kasih telah belanja di Megafit</b></p>
+          // <p style="margin:0px 0px 10px 0px;color:#91c640">Lebih sedikit kertas, lebih hijau! Pilihan Megarangers membuat dunia lebih baik.</p>
 
-				<p style="margin:15px 0px;"><b>Berikut merupakan detil pembelian di Megafit pada tanggal ${getDate(
-          new Date(transaction.createdAt)
-        )}</b></p>
+          // <p style="margin:15px 0px;"><b>Berikut merupakan detil pembelian di Megafit pada tanggal ${getDate(
+          //   new Date(transaction.createdAt)
+          // )}</b></p>
 
-				<div id="table-order" style="margin-bottom: 20px;">
-					<div style="background-color:#dcdcdc;padding:10px 30px;margin-top:20px;width:500px">
-						<p style="margin:0px;"><b>Invoice No: ${salesInvoice}</b></p>
-					</div>
-					<p style="margin: 10px 0px 10px 30px;"><b>Paket dipilih</b></p>
+          // <div id="table-order" style="margin-bottom: 20px;">
+          // 	<div style="background-color:#dcdcdc;padding:10px 30px;margin-top:20px;width:500px">
+          // 		<p style="margin:0px;"><b>Invoice No: ${salesInvoice}</b></p>
+          // 	</div>
+          // 	<p style="margin: 10px 0px 10px 30px;"><b>Paket dipilih</b></p>
 
-					${order}
+          // 	${order}
 
-					<div style="display:flex;margin-left:30px;">
-						<div style="width:350px;">
-							<p style="margin:5px;margin-left: 0px;">Admin Fee</p>
-						</div>
-						<div>
-							<p style="margin:5px;margin-left: 0px;">Rp ${
-                transaction.admPrice ? convertRupiah(transaction.admPrice) : 0
-              }</p>
-						</div>
-					</div>
-					<div style="border-top:1px solid #aaa;font-size:0;margin:8px 30px;width: 500px;"></div>
-					<div style="display:flex;margin-left:30px;">
-						<div style="width:350px;">
-							<p style="margin:5px;margin-left: 0px;">Total</p>
-						</div>
-						<div>
-							<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
-                transaction.amount
-              )}</p>
-						</div>
-					</div>
-				</div>
+          // 	<div style="display:flex;margin-left:30px;">
+          // 		<div style="width:350px;">
+          // 			<p style="margin:5px;margin-left: 0px;">Admin Fee</p>
+          // 		</div>
+          // 		<div>
+          // 			<p style="margin:5px;margin-left: 0px;">Rp ${
+          //         transaction.admPrice ? convertRupiah(transaction.admPrice) : 0
+          //       }</p>
+          // 		</div>
+          // 	</div>
+          // 	<div style="border-top:1px solid #aaa;font-size:0;margin:8px 30px;width: 500px;"></div>
+          // 	<div style="display:flex;margin-left:30px;">
+          // 		<div style="width:350px;">
+          // 			<p style="margin:5px;margin-left: 0px;">Total</p>
+          // 		</div>
+          // 		<div>
+          // 			<p style="margin:5px;margin-left: 0px;">Rp ${convertRupiah(
+          //         transaction.amount
+          //       )}</p>
+          // 		</div>
+          // 	</div>
+          // </div>
 
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				<div style="text-align:center;font-size: small;">
-					<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
-				</div>
-				<div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
-				<p style="font-size: x-small;">* Transaksi sukses tidak bisa dibatalkan dan uang yang telah dibayarkan tidak bisa dikembalikan.</p>
-				<p style="font-size: x-small;">* Email ini dikirimkan ke ${
-          mailOptions.to
-        } karena kamu telah memilih untuk menerima salinan tanda terima elektronik.</p>
+          // <div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+          // <div style="text-align:center;font-size: small;">
+          // 	<b>Email ini dibuat secara otomatis. Mohon tidak mengirim balasan ke email ini.</b>
+          // </div>
+          // <div style="border-top:1px solid #aaa;font-size:0;margin:8px auto;"></div>
+          // <p style="font-size: x-small;">* Transaksi sukses tidak bisa dibatalkan dan uang yang telah dibayarkan tidak bisa dikembalikan.</p>
+          // <p style="font-size: x-small;">* Email ini dikirimkan ke ${
+          //   mailOptions.to
+          // } karena kamu telah memilih untuk menerima salinan tanda terima elektronik.</p>
 
-				${footerMail}
-				`;
+          // ${footerMail}
+          // `;
 
-          await transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log("GAGAL");
-              console.log(error);
-            } else {
-              console.log(mailOptions.to);
-              console.log("Berhasil");
-            }
-          });
+          //   await transporter.sendMail(mailOptions, function (error, info) {
+          //     if (error) {
+          //       console.log("GAGAL");
+          //       console.log(error);
+          //     } else {
+          //       console.log(mailOptions.to);
+          //       console.log("Berhasil");
+          //     }
+          //   });
 
-          await rememberExtendPackage(req.body.memberId);
+          //   await rememberExtendPackage(req.body.memberId);
         }
       }
     } catch (error) {

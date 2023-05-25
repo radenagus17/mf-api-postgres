@@ -10,13 +10,25 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       tblStaff.belongsTo(models.tblUser, { foreignKey: "userId", as: "staff" });
-      tblStaff.belongsTo(models.tblUser, { foreignKey: "evaluatorId1", as: "evaluator1" });
-      tblStaff.belongsTo(models.tblUser, { foreignKey: "evaluatorId2", as: "evaluator2" });
+      tblStaff.belongsTo(models.tblUser, {
+        foreignKey: "evaluatorId1",
+        as: "evaluator1",
+      });
+      tblStaff.belongsTo(models.tblUser, {
+        foreignKey: "evaluatorId2",
+        as: "evaluator2",
+      });
       // tblStaffs.hasMany(models.tblTaskPT, { foreignKey: 'ptId' });
       tblStaff.hasMany(models.tblMember, { foreignKey: "ptId" });
       tblStaff.hasMany(models.tblTransaction, { foreignKey: "staffId" });
-      tblStaff.hasMany(models.tblTransaction, { foreignKey: "salesId", as: "sales" });
-      tblStaff.hasMany(models.tblTransaction, { foreignKey: "cashierId", as: "cashier" });
+      tblStaff.hasMany(models.tblTransaction, {
+        foreignKey: "salesId",
+        as: "sales",
+      });
+      tblStaff.hasMany(models.tblTransaction, {
+        foreignKey: "cashierId",
+        as: "cashier",
+      });
     }
   }
   tblStaff.init(

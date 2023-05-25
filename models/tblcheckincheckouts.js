@@ -9,9 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      tblCheckinCheckouts.belongsTo(models.tblUser, { foreignKey: "userId", as: "member" });
-      tblCheckinCheckouts.belongsTo(models.tblUser, { foreignKey: "adminIdCheckin", as: "admin_checkin" });
-      tblCheckinCheckouts.belongsTo(models.tblUser, { foreignKey: "adminIdCheckout", as: "admin_checkout" });
+      tblCheckinCheckouts.belongsTo(models.tblUser, {
+        foreignKey: "userId",
+        as: "member",
+      });
+      tblCheckinCheckouts.belongsTo(models.tblUser, {
+        foreignKey: "adminIdCheckin",
+        as: "admin_checkin",
+      });
+      tblCheckinCheckouts.belongsTo(models.tblUser, {
+        foreignKey: "adminIdCheckout",
+        as: "admin_checkout",
+      });
     }
   }
   tblCheckinCheckouts.init(
