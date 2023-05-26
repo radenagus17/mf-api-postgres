@@ -95,7 +95,7 @@ class historyPT {
         await data.sort(compareYear);
       } else if (req.query.checkin === "true") {
         data = await tblHistoryPT.sequelize.query(
-          "SELECT tblHistoryPTs.userId, tblUsers.fullname AS `PT`, tblClassPts.time,tblClassPts.date,tblClassPts.month,tblClassPts.week,tblClassPts.year,tblClassPts.isOnline FROM `tblHistoryPTs` INNER JOIN `tblClassPts` ON `tblClassPts`.`classPtId` = `tblHistoryPTs`.`classPtId` INNER JOIN `tblUsers` ON `tblClassPts`.`ptId` = `tblUsers`.`userId` WHERE `tblClassPts`.`date` = $1 AND `tblClassPts`.`month` = $2 AND `tblClassPts`.`year` = $3",
+          'SELECT "tblHistoryPTs"."userId", "tblUsers"."fullname" AS "PT", "tblClassPts"."time","tblClassPts"."date","tblClassPts"."month","tblClassPts"."week","tblClassPts"."year","tblClassPts"."isOnline" FROM "tblHistoryPTs" INNER JOIN "tblClassPts" ON "tblClassPts"."classPtId" = "tblHistoryPTs"."classPtId" INNER JOIN "tblUsers" ON "tblClassPts"."ptId" = "tblUsers"."userId" WHERE "tblClassPts"."date" = $1 AND "tblClassPts"."month" = $2 AND "tblClassPts"."year" = $3',
           {
             bind: [req.query.date, req.query.month, req.query.year],
             raw: true,
@@ -195,7 +195,7 @@ class historyPT {
         );
       } else if (req.query.schedule === "true") {
         let history = await tblHistoryPT.sequelize.query(
-          "SELECT member.nickname AS `Member`,member.fullname AS `MemberFullname`,tblUsers.fullname AS `PT`,tblClassPts.time,tblClassPts.date,tblClassPts.week,tblClassPts.month,tblClassPts.year FROM `tblHistoryPTs`  INNER JOIN tblUsers AS `member` ON tblHistoryPTs.userId = member.userId LEFT OUTER JOIN tblClassPts ON tblHistoryPTs.classPtId = tblClassPts.classPtId LEFT OUTER JOIN tblUsers on tblClassPts.ptId = tblUsers.userId",
+          'SELECT "member"."nickname" AS "Member","member"."fullname" AS "MemberFullname","tblUsers"."fullname" AS "PT","tblClassPts"."time","tblClassPts"."date","tblClassPts"."week","tblClassPts"."month","tblClassPts"."year" FROM "tblHistoryPTs" INNER JOIN "tblUsers" AS "member" ON "tblHistoryPTs"."userId" = "member"."userId" LEFT OUTER JOIN "tblClassPts" ON "tblHistoryPTs"."classPtId" = "tblClassPts"."classPtId" LEFT OUTER JOIN "tblUsers" on "tblClassPts"."ptId" = "tblUsers"."userId"',
           {
             raw: true,
             type: QueryTypes.SELECT,

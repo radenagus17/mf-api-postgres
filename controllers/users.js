@@ -1158,7 +1158,7 @@ class usersController {
                 { where: { userId: detailUser.userId } }
               );
 
-              detailUser.flagActive = 0;
+              detailUser.flagActive = false;
             }
 
             let checkLockerkey = await tblCheckinCheckouts.findOne({

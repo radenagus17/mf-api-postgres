@@ -251,7 +251,9 @@ class promo {
     try {
       if (req.user.roleId !== 2) throw { name: "unauthorized" };
       if (!req.body.code || !req.body || req.body.code === undefined)
-        throw { name: "notFound" };
+        return res
+          .status(404)
+          .json({ success: false, message: "data not found !" });
 
       const data = await tblPromo.findOne({
         where: {
@@ -260,7 +262,11 @@ class promo {
         include: { model: tblPromoProduct },
       });
 
-      if (!data) throw { name: "notFound" };
+      if (!data)
+        return res
+          .status(404)
+          .json({ success: false, message: "data not found !" });
+
       if (cekSisaHari(data.periodeEnd) <= 0) throw { name: "notFound" };
 
       const dataUser = await tblMember.findOne({
