@@ -334,16 +334,28 @@ class promo {
         if (!transaction.length) throw { name: "notFound" };
         let lastTransaction = transaction[0];
 
+        let cart = lastTransaction.tblOrderLists;
+        const totalPrice = cart.reduce((a, b) => a.totalPrice + b.totalPrice);
+
         if (
           data.minimumPurchase &&
-          lastTransaction.amount < data.minimumPurchase
-        )
+          cart.length > 1 &&
+          totalPrice < data.minimumPurchase
+        ) {
           return res.status(409).json({
             success: false,
             message: "Transaction Order is less than minimum promo !",
           });
+        } else if (
+          data.minimumPurchase &&
+          cart[0].totalPrice < data.minimumPurchase
+        ) {
+          return res.status(409).json({
+            success: false,
+            message: "Transaction Order is less than minimum promo !",
+          });
+        }
 
-        let cart = lastTransaction.tblOrderLists;
         let totalPotongan = 0;
 
         if (data.forAll) {
