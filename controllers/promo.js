@@ -335,26 +335,16 @@ class promo {
         let lastTransaction = transaction[0];
 
         let cart = lastTransaction.tblOrderLists;
-        const totalPrice = cart.reduce((a, b) => a.totalPrice + b.totalPrice);
+        const totalPrice =
+          cart.length > 1
+            ? cart.reduce((a, b) => a.totalPrice + b.totalPrice)
+            : cart[0].totalPrice;
 
-        if (
-          data.minimumPurchase &&
-          cart.length > 1 &&
-          totalPrice < data.minimumPurchase
-        ) {
+        if (data.minimumPurchase && totalPrice < data.minimumPurchase)
           return res.status(409).json({
             success: false,
             message: "Transaction Order is less than minimum promo !",
           });
-        } else if (
-          data.minimumPurchase &&
-          cart[0].totalPrice < data.minimumPurchase
-        ) {
-          return res.status(409).json({
-            success: false,
-            message: "Transaction Order is less than minimum promo !",
-          });
-        }
 
         let totalPotongan = 0;
 
