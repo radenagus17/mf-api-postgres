@@ -355,7 +355,8 @@ class promo {
             promise.push(
               tblOrderList.update(
                 {
-                  promoId: data.id,
+                  promo_1: el.promo_1 ?? data.id,
+                  promo_2: el.promo_1 ? data.id : null,
                 },
                 { where: { id: el.id } }
               )
@@ -381,7 +382,8 @@ class promo {
             updateOrder.push(
               tblOrderList.update(
                 {
-                  promoId: data.id,
+                  promo_1: el.promo_1 ?? data.id,
+                  promo_2: el.promo_1 ? data.id : null,
                 },
                 { where: { id: el.id } }
               )
@@ -529,7 +531,8 @@ class promo {
         promise.push(
           tblOrderList.update(
             {
-              promoId: null,
+              promo_1: el.promo_1 === data.idVoucher ? null : el.promo_1,
+              promo_2: el.promo_2 === data.idVoucher ? null : el.promo_2,
             },
             { where: { id: el.id } }
           )

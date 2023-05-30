@@ -172,7 +172,6 @@ class TransactionController {
               },
               {
                 model: tblPromo,
-                as: "promo",
                 attributes: [
                   "name",
                   "code",
