@@ -565,19 +565,20 @@ class promo {
       const dataUser = await tblUser.findByPk(req.user.userId, {
         include: { model: tblMember },
       });
-      const dataHistory = await tblHistoryPromo.findAll({
-        where: { memberId: dataUser.tblMember.memberId },
-        include: { model: tblPromo },
-      });
+      // const dataHistory = await tblHistoryPromo.findAll({
+      //   where: { memberId: dataUser.tblMember.memberId },
+      //   include: { model: tblPromo },
+      // });
       // console.log(dataHistory);
-      // let history = await tblHistoryPromo.sequelize.query(
-      //   "SELECT tblMembers.memberId,tblUsers.fullname,tblClassPts.time,tblClassPts.date,tblClassPts.week,tblClassPts.month,tblClassPts.year,tblRevenues.packagePT,tblRevenues.pricePT,tblRevenues.timesPT FROM `tblHistoryPTs` INNER JOIN `tblMembers` ON tblHistoryPTs.userId = tblMembers.userId LEFT OUTER JOIN tblRevenues ON tblHistoryPTs.revenueId = tblRevenues.id LEFT OUTER JOIN tblClassPts ON tblHistoryPTs.classPtId = tblClassPts.classPtId LEFT OUTER JOIN tblUsers on tblClassPts.ptId = tblUsers.userId",
-      //   {
-      //     raw: true,
-      //     type: QueryTypes.SELECT,
-      //   }
-      // );
-      res.status(200).json({ success: true, histories: dataHistory });
+      let history = await tblHistoryPromo.sequelize.query(
+        `SELECT to_char("tblHistoryPromos"."claimDate", 'YYYY-MM-DD') AS "claimDate", "tblMembers"."memberId","tblUsers"."fullname","tblPromos"."id" AS "promoId","tblPromos"."code","tblHistoryPromos"."transaction","tblHistoryPromos"."discount" FROM "tblHistoryPromos" INNER JOIN "tblMembers" ON "tblMembers"."memberId" = "tblHistoryPromos"."memberId" INNER JOIN "tblUsers" ON "tblUsers"."userId" = "tblMembers"."userId" INNER JOIN "tblPromos" ON "tblPromos"."id" = "tblHistoryPromos"."idVoucher" WHERE "tblHistoryPromos"."memberId" = $1 AND "tblHistoryPromos"."transaction" = $2`,
+        {
+          bind: [dataUser.tblMember.memberId, +req.query.idTransaction],
+          raw: true,
+          type: QueryTypes.SELECT,
+        }
+      );
+      res.status(200).json({ success: true, histories: history });
     } catch (error) {
       next(error);
     }
