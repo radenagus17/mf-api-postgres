@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       tblOrderList.belongsTo(models.tblPromo, {
         foreignKey: "promo_1",
-        as: "promo-1",
+        as: "promo1",
       });
       tblOrderList.belongsTo(models.tblPromo, {
         foreignKey: "promo_2",
-        as: "promo-2",
+        as: "promo2",
       });
     }
   }

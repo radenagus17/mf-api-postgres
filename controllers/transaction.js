@@ -172,7 +172,7 @@ class TransactionController {
               },
               {
                 model: tblPromo,
-                as: "promo-1",
+                as: "promo1",
                 attributes: [
                   "name",
                   "code",
@@ -185,7 +185,7 @@ class TransactionController {
               },
               {
                 model: tblPromo,
-                as: "promo-2",
+                as: "promo2",
                 attributes: [
                   "name",
                   "code",
