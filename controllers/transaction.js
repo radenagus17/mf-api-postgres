@@ -172,6 +172,20 @@ class TransactionController {
               },
               {
                 model: tblPromo,
+                as: "promo-1",
+                attributes: [
+                  "name",
+                  "code",
+                  "periodeEnd",
+                  "typeVoucher",
+                  "isUnlimited",
+                  "minimumPurchase",
+                  "discountMax",
+                ],
+              },
+              {
+                model: tblPromo,
+                as: "promo-2",
                 attributes: [
                   "name",
                   "code",
