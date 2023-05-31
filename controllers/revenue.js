@@ -42,7 +42,7 @@ class RevenueController {
                     [Op.lte]: new Date(req.query.endDate),
                   },
                 },
-                { is_event: { [Op.not]: 1 } },
+                { is_event: { [Op.not]: true } },
                 { status: { [Op.not]: "PENDING" } },
               ],
             },
@@ -171,11 +171,11 @@ class RevenueController {
             penggunaanPT: await el.tblHistoryPTs.filter(
               (x) =>
                 moment(
-                  `${x.tblClassPt.year}-${x.tblClassPt.month}-${x.tblClassPt.date}`,
+                  `${x?.tblClassPt?.year}-${x?.tblClassPt?.month}-${x?.tblClassPt?.date}`,
                   "YYYY-MM-DD"
                 ) >= moment(req.query.firstDate, "YYYY-MM-DD") &&
                 moment(
-                  `${x.tblClassPt.year}-${x.tblClassPt.month}-${x.tblClassPt.date}`,
+                  `${x?.tblClassPt?.year}-${x?.tblClassPt?.month}-${x?.tblClassPt?.date}`,
                   "YYYY-MM-DD"
                 ) <= moment(req.query.endDate, "YYYY-MM-DD")
             ).length,
