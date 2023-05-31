@@ -574,7 +574,7 @@ class promo {
       // });
       // console.log(dataHistory);
       let history = await tblHistoryPromo.sequelize.query(
-        `SELECT to_char("tblHistoryPromos"."claimDate", 'YYYY-MM-DD') AS "claimDate", "tblMembers"."memberId","tblUsers"."fullname","tblPromos"."id" AS "promoId","tblPromos"."code","tblHistoryPromos"."transaction","tblHistoryPromos"."discount" FROM "tblHistoryPromos" INNER JOIN "tblMembers" ON "tblMembers"."memberId" = "tblHistoryPromos"."memberId" INNER JOIN "tblUsers" ON "tblUsers"."userId" = "tblMembers"."userId" INNER JOIN "tblPromos" ON "tblPromos"."id" = "tblHistoryPromos"."idVoucher" WHERE "tblHistoryPromos"."memberId" = $1 AND "tblHistoryPromos"."transaction" = $2`,
+        `SELECT "tblHistoryPromos"."id" AS "historyId", to_char("tblHistoryPromos"."claimDate", 'YYYY-MM-DD') AS "claimDate", "tblMembers"."memberId","tblUsers"."fullname","tblPromos"."id" AS "promoId","tblPromos"."code","tblHistoryPromos"."transaction","tblHistoryPromos"."discount" FROM "tblHistoryPromos" INNER JOIN "tblMembers" ON "tblMembers"."memberId" = "tblHistoryPromos"."memberId" INNER JOIN "tblUsers" ON "tblUsers"."userId" = "tblMembers"."userId" INNER JOIN "tblPromos" ON "tblPromos"."id" = "tblHistoryPromos"."idVoucher" WHERE "tblHistoryPromos"."memberId" = $1 AND "tblHistoryPromos"."transaction" = $2`,
         {
           bind: [dataUser.tblMember.memberId, +req.query.idTransaction],
           raw: true,

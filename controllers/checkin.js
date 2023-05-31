@@ -473,7 +473,7 @@ class checkinController {
         //FOR CHECKOUT
         let newUserCheckinUpdate = {
           adminIdCheckout: req.user.userId,
-          checkoutTime: createDateAsUTC(new Date()),
+          checkoutTime: moment().format("HH:mm:ss"),
         };
 
         if (req.body.lockerKey) newUserCheckinUpdate.lockerKey = 0;
