@@ -311,15 +311,6 @@ class promo {
           message: "You cannot claim this promo two times in 1 period",
         });
 
-      //! different voucher max 2
-      const max2Voucher = dataHistoryPromo.find(
-        (el) => cekSisaHari(el.claimDate) === 0 && dataHistoryPromo.length > 2
-      );
-      if (max2Voucher)
-        return res
-          .status(403)
-          .json({ success: false, message: "maximal 2 promo can combine" });
-
       // const revenueData = await tblRevenue.findAll({
       //   where: { memberId: dataUser.memberId },
       //   order: [["id", "DESC"]],
@@ -333,6 +324,18 @@ class promo {
         });
         if (!transaction.length) throw { name: "notFound" };
         let lastTransaction = transaction[0];
+
+        //! different voucher max 2 (START)
+        const max2Voucher = dataHistoryPromo.filter(
+          (el) =>
+            cekSisaHari(el.claimDate) === 0 &&
+            el.transaction === lastTransaction.transactionId
+        );
+        if (max2Voucher.length >= 2)
+          return res
+            .status(403)
+            .json({ success: false, message: "maximal 2 promo can combine" });
+        //! different voucher max 2 (END)
 
         let cart = lastTransaction.tblOrderLists;
         const totalPrice =

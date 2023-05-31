@@ -1,4 +1,11 @@
-const { tblCheckinCheckouts, tblUser, tblStaff, tblMember, tblCancelReservation, tblSubCategoryMembership } = require("../models");
+const {
+  tblCheckinCheckouts,
+  tblUser,
+  tblStaff,
+  tblMember,
+  tblCancelReservation,
+  tblSubCategoryMembership,
+} = require("../models");
 const Op = require("sequelize").Op;
 const { log } = require("../helpers/log");
 const { createDateAsUTC } = require("../helpers/convertDate");
@@ -12,20 +19,42 @@ class checkinController {
     let userCheckin;
     try {
       if (req.body.isReservation) {
-        if (await checkSlotGym(req.body.reservationDate, req.body.reservationTime, req.user.userId)) {
+        if (
+          await checkSlotGym(
+            req.body.reservationDate,
+            req.body.reservationTime,
+            req.user.userId
+          )
+        ) {
           if (moment(new Date(req.body.reservationDate)).isoWeekday() > 5) {
             jamPrivateGym = 0;
             batasJamPrivateGym = 0;
           }
           let newUserCheckin = {
             userId: req.user.userId,
-            date: createDateAsUTC(new Date(req.body.reservationDate)) ?? createDateAsUTC(new Date()),
+            date:
+              createDateAsUTC(new Date(req.body.reservationDate)) ??
+              createDateAsUTC(new Date()),
             isReservation: 1,
           };
-          if (new Date(req.body.reservationDate).getDate() === new Date().getDate() && new Date(req.body.reservationDate).getMonth() === new Date().getMonth()) {
-            if (new Date().getHours() === Number(req.body.reservationTime.slice(0, 2))) {
-              let minute = new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes();
-              newUserCheckin.reservationTime = `${req.body.reservationTime.slice(0, 2)}:${minute}:00`;
+          if (
+            new Date(req.body.reservationDate).getDate() ===
+              new Date().getDate() &&
+            new Date(req.body.reservationDate).getMonth() ===
+              new Date().getMonth()
+          ) {
+            if (
+              new Date().getHours() ===
+              Number(req.body.reservationTime.slice(0, 2))
+            ) {
+              let minute =
+                new Date().getMinutes() < 10
+                  ? `0${new Date().getMinutes()}`
+                  : new Date().getMinutes();
+              newUserCheckin.reservationTime = `${req.body.reservationTime.slice(
+                0,
+                2
+              )}:${minute}:00`;
             } else {
               newUserCheckin.reservationTime = req.body.reservationTime;
             }
@@ -43,7 +72,9 @@ class checkinController {
                 PG_Session: member.PG_Session - 1,
               };
 
-              await tblMember.update(data, { where: { userId: req.user.userId } });
+              await tblMember.update(data, {
+                where: { userId: req.user.userId },
+              });
             } else throw { name: "nullPG" };
           }
           userCheckin = await tblCheckinCheckouts.create(newUserCheckin);
@@ -63,11 +94,26 @@ class checkinController {
           throw { name: "fullBook" };
         }
       } else {
-        let date = new Date().getDate() < 10 ? `0${new Date().getDate()}` : new Date().getDate();
-        let month = new Date().getMonth() + 1 < 10 ? `0${new Date().getMonth() + 1}` : new Date().getMonth() + 1;
-        let hour = new Date().getHours() < 10 ? `0${new Date().getHours()}:00:00` : `${new Date().getHours()}:00:00`;
+        let date =
+          new Date().getDate() < 10
+            ? `0${new Date().getDate()}`
+            : new Date().getDate();
+        let month =
+          new Date().getMonth() + 1 < 10
+            ? `0${new Date().getMonth() + 1}`
+            : new Date().getMonth() + 1;
+        let hour =
+          new Date().getHours() < 10
+            ? `0${new Date().getHours()}:00:00`
+            : `${new Date().getHours()}:00:00`;
 
-        if (await checkSlotGym(`${new Date().getFullYear()}-${month}-${date}`, hour, req.body.userId)) {
+        if (
+          await checkSlotGym(
+            `${new Date().getFullYear()}-${month}-${date}`,
+            hour,
+            req.body.userId
+          )
+        ) {
           let cekLockerKey = await tblCheckinCheckouts.findOne({
             where: { lockerKey: req.body.lockerKey },
           });
@@ -92,7 +138,10 @@ class checkinController {
                 //   });
                 //   if (access === "Sesi") memberUpdateData.activeExpired = createDateAsUTC(new Date());
                 // }
-                await tblUser.update({ flagActive: true }, { where: { userId: dataMembers.userId } });
+                await tblUser.update(
+                  { flagActive: true },
+                  { where: { userId: dataMembers.userId } }
+                );
               } else {
                 memberUpdateData = { lastCheckin: createDateAsUTC(new Date()) };
               }
@@ -140,8 +189,14 @@ class checkinController {
       if (req.query.checkin === "true") {
         query = query + "?checkin=true";
 
-        let prevHour = Number(req.query.time.slice(0, 2)) - 1 < 10 ? `0${Number(req.query.time.slice(0, 2)) - 1}` : Number(req.query.time.slice(0, 2)) - 1;
-        let nextHour = Number(req.query.time.slice(0, 2)) + 1 < 10 ? `0${Number(req.query.time.slice(0, 2)) + 1}` : Number(req.query.time.slice(0, 2)) + 1;
+        let prevHour =
+          Number(req.query.time.slice(0, 2)) - 1 < 10
+            ? `0${Number(req.query.time.slice(0, 2)) - 1}`
+            : Number(req.query.time.slice(0, 2)) - 1;
+        let nextHour =
+          Number(req.query.time.slice(0, 2)) + 1 < 10
+            ? `0${Number(req.query.time.slice(0, 2)) + 1}`
+            : Number(req.query.time.slice(0, 2)) + 1;
 
         data = await tblCheckinCheckouts.findAll({
           where: {
@@ -153,10 +208,18 @@ class checkinController {
                   {
                     [Op.or]: [
                       {
-                        [Op.and]: [{ checkinTime: { [Op.gte]: `${prevHour}:00:00` } }, { checkinTime: { [Op.lt]: `${nextHour}:00:00` } }],
+                        [Op.and]: [
+                          { checkinTime: { [Op.gte]: `${prevHour}:00:00` } },
+                          { checkinTime: { [Op.lt]: `${nextHour}:00:00` } },
+                        ],
                       },
                       {
-                        [Op.and]: [{ reservationTime: { [Op.gte]: `${prevHour}:00:00` } }, { reservationTime: { [Op.lt]: `${nextHour}:00:00` } }],
+                        [Op.and]: [
+                          {
+                            reservationTime: { [Op.gte]: `${prevHour}:00:00` },
+                          },
+                          { reservationTime: { [Op.lt]: `${nextHour}:00:00` } },
+                        ],
                       },
                     ],
                   },
@@ -190,7 +253,9 @@ class checkinController {
               // },
             ],
           },
-          include: [{ model: tblUser, as: "member", include: { model: tblMember } }],
+          include: [
+            { model: tblUser, as: "member", include: { model: tblMember } },
+          ],
         });
       } else if (req.query["for-option-member"] === "true") {
         if (moment(new Date(req.query.date)).isoWeekday() > 5) {
@@ -212,14 +277,27 @@ class checkinController {
           let hourB = i + 1 < 10 ? `0${i + 1}` : i + 1;
           let hourC = i + 2 < 10 ? `0${i + 2}` : i + 2;
 
-          let data1 = await dataCheckin.filter((checkin) => (checkin.checkinTime >= `${hourA}:00:00` && checkin.checkinTime < `${hourB}:00:00`) || (checkin.reservationTime >= `${hourA}:00:00` && checkin.reservationTime < `${hourB}:00:00`));
-          let data2 = await dataCheckin.filter((checkin) => (checkin.checkinTime >= `${hour}:00:00` && checkin.checkinTime < `${hourC}:00:00`) || (checkin.reservationTime >= `${hour}:00:00` && checkin.reservationTime < `${hourC}:00:00`));
+          let data1 = await dataCheckin.filter(
+            (checkin) =>
+              (checkin.checkinTime >= `${hourA}:00:00` &&
+                checkin.checkinTime < `${hourB}:00:00`) ||
+              (checkin.reservationTime >= `${hourA}:00:00` &&
+                checkin.reservationTime < `${hourB}:00:00`)
+          );
+          let data2 = await dataCheckin.filter(
+            (checkin) =>
+              (checkin.checkinTime >= `${hour}:00:00` &&
+                checkin.checkinTime < `${hourC}:00:00`) ||
+              (checkin.reservationTime >= `${hour}:00:00` &&
+                checkin.reservationTime < `${hourC}:00:00`)
+          );
 
           let limit = i < batasJamPrivateGym ? 1 : 23;
 
           let dataHour = {
             hour: `${hour}:00:00`,
-            isAvailable: data1.length >= limit || data2.length >= limit ? false : true,
+            isAvailable:
+              data1.length >= limit || data2.length >= limit ? false : true,
           };
 
           tempData.push(dataHour);
@@ -228,7 +306,10 @@ class checkinController {
       } else if (req.query.laporan === "true") {
         let history = await tblCheckinCheckouts.findAll({
           where: {
-            [Op.and]: [{ date: { [Op.gte]: new Date(req.query.firstDate) } }, { date: { [Op.lte]: new Date(req.query.endDate) } }],
+            [Op.and]: [
+              { date: { [Op.gte]: new Date(req.query.firstDate) } },
+              { date: { [Op.lte]: new Date(req.query.endDate) } },
+            ],
           },
           include: [
             {
@@ -262,7 +343,9 @@ class checkinController {
         });
       }
 
-      res.status(200).json({ message: "Success", totalRecord: data.length, data });
+      res
+        .status(200)
+        .json({ message: "Success", totalRecord: data.length, data });
 
       let newData = {
         userId: req.user.userId,
@@ -285,7 +368,10 @@ class checkinController {
         // GIVE BACK LOCKER KEY
         query = query + "?lockerKey=true";
 
-        let userCheckinUpdate = await tblCheckinCheckouts.update({ lockerKey: 0 }, { where: { checkId: req.params.id } });
+        let userCheckinUpdate = await tblCheckinCheckouts.update(
+          { lockerKey: 0 },
+          { where: { checkId: req.params.id } }
+        );
         let dataReturn = await tblCheckinCheckouts.findByPk(req.params.id, {
           include: [
             {
@@ -299,7 +385,10 @@ class checkinController {
         if (userCheckinUpdate) throw { name: "notFound" };
         res.status(200).json({ message: "Success", data: dataReturn });
       } else if (req.query.noBottle === "true") {
-        let userCheckinUpdate = await tblCheckinCheckouts.update({ noBottle: 0 }, { where: { checkId: req.params.id } });
+        let userCheckinUpdate = await tblCheckinCheckouts.update(
+          { noBottle: 0 },
+          { where: { checkId: req.params.id } }
+        );
 
         let dataReturn = await tblCheckinCheckouts.findByPk(req.params.id, {
           include: [
@@ -310,7 +399,8 @@ class checkinController {
             },
           ],
         });
-        if (userCheckinUpdate) res.status(200).json({ message: "Success", data: dataReturn });
+        if (userCheckinUpdate)
+          res.status(200).json({ message: "Success", data: dataReturn });
       } else if (req.query.checkin === "true") {
         //HAS RESERVATION WANT TO CHECKIN
         let cekLockerKey = await tblCheckinCheckouts.findOne({
@@ -323,18 +413,24 @@ class checkinController {
             adminIdCheckin: req.user.userId,
             lockerKey: req.body.lockerKey,
             noBottle: req.body.noBottle,
-            checkinTime: createDateAsUTC(new Date()),
+            checkinTime: moment().format("HH:mm:ss"),
           };
 
-          let userCheckinUpdate = await tblCheckinCheckouts.update(newUserCheckinUpdate, {
-            where: { checkId: req.params.id },
-          });
+          let userCheckinUpdate = await tblCheckinCheckouts.update(
+            newUserCheckinUpdate,
+            {
+              where: { checkId: req.params.id },
+            }
+          );
           let dataReturn = await tblCheckinCheckouts.findByPk(req.params.id, {
             include: [
               {
                 model: tblUser,
                 as: "member",
-                include: [{ model: tblStaff, as: "staff" }, { model: tblMember }],
+                include: [
+                  { model: tblStaff, as: "staff" },
+                  { model: tblMember },
+                ],
               },
             ],
           });
@@ -354,9 +450,13 @@ class checkinController {
                 let { access } = await tblSubCategoryMembership.findOne({
                   where: { categoryMembershipId: 3 },
                 });
-                if (access === "Sesi") memberUpdateData.activeExpired = createDateAsUTC(new Date());
+                if (access === "Sesi")
+                  memberUpdateData.activeExpired = createDateAsUTC(new Date());
               }
-              await tblUser.update({ flagActive: true }, { where: { userId: dataMembers.userId } });
+              await tblUser.update(
+                { flagActive: true },
+                { where: { userId: dataMembers.userId } }
+              );
             } else {
               memberUpdateData = { lastCheckin: createDateAsUTC(new Date()) };
             }
@@ -379,9 +479,12 @@ class checkinController {
         if (req.body.lockerKey) newUserCheckinUpdate.lockerKey = 0;
         if (req.body.noBottle) newUserCheckinUpdate.noBottle = 0;
 
-        let userCheckinUpdate = await tblCheckinCheckouts.update(newUserCheckinUpdate, {
-          where: { checkId: req.params.id },
-        });
+        let userCheckinUpdate = await tblCheckinCheckouts.update(
+          newUserCheckinUpdate,
+          {
+            where: { checkId: req.params.id },
+          }
+        );
         let dataReturn = await tblCheckinCheckouts.findByPk(req.params.id, {
           include: [
             {
@@ -455,10 +558,22 @@ class checkinController {
 
 async function checkSlotGym(reservationDate, reservationTime, userId) {
   let dataSlotNow, dataSlotNext;
-  let hour = Number(reservationTime.slice(0, 2)) < 10 ? `0${Number(reservationTime.slice(0, 2))}` : Number(reservationTime.slice(0, 2));
-  let hourA = Number(reservationTime.slice(0, 2)) - 1 < 10 ? `0${Number(reservationTime.slice(0, 2)) - 1}` : Number(reservationTime.slice(0, 2)) - 1;
-  let hourB = Number(reservationTime.slice(0, 2)) + 1 < 10 ? `0${Number(reservationTime.slice(0, 2)) + 1}` : Number(reservationTime.slice(0, 2)) + 1;
-  let hourC = Number(reservationTime.slice(0, 2)) + 2 < 10 ? `0${Number(reservationTime.slice(0, 2)) + 2}` : Number(reservationTime.slice(0, 2)) + 2;
+  let hour =
+    Number(reservationTime.slice(0, 2)) < 10
+      ? `0${Number(reservationTime.slice(0, 2))}`
+      : Number(reservationTime.slice(0, 2));
+  let hourA =
+    Number(reservationTime.slice(0, 2)) - 1 < 10
+      ? `0${Number(reservationTime.slice(0, 2)) - 1}`
+      : Number(reservationTime.slice(0, 2)) - 1;
+  let hourB =
+    Number(reservationTime.slice(0, 2)) + 1 < 10
+      ? `0${Number(reservationTime.slice(0, 2)) + 1}`
+      : Number(reservationTime.slice(0, 2)) + 1;
+  let hourC =
+    Number(reservationTime.slice(0, 2)) + 2 < 10
+      ? `0${Number(reservationTime.slice(0, 2)) + 2}`
+      : Number(reservationTime.slice(0, 2)) + 2;
 
   dataSlotNow = await tblCheckinCheckouts.findAll({
     where: {
@@ -468,10 +583,16 @@ async function checkSlotGym(reservationDate, reservationTime, userId) {
         {
           [Op.or]: [
             {
-              [Op.and]: [{ checkinTime: { [Op.gte]: `${hourA}:00:00` } }, { checkinTime: { [Op.lt]: `${hourB}:00:00` } }],
+              [Op.and]: [
+                { checkinTime: { [Op.gte]: `${hourA}:00:00` } },
+                { checkinTime: { [Op.lt]: `${hourB}:00:00` } },
+              ],
             },
             {
-              [Op.and]: [{ reservationTime: { [Op.gte]: `${hourA}:00:00` } }, { reservationTime: { [Op.lt]: `${hourB}:00:00` } }],
+              [Op.and]: [
+                { reservationTime: { [Op.gte]: `${hourA}:00:00` } },
+                { reservationTime: { [Op.lt]: `${hourB}:00:00` } },
+              ],
             },
           ],
         },
@@ -487,10 +608,16 @@ async function checkSlotGym(reservationDate, reservationTime, userId) {
         {
           [Op.or]: [
             {
-              [Op.and]: [{ checkinTime: { [Op.gte]: `${hour}:00:00` } }, { checkinTime: { [Op.lt]: `${hourC}:00:00` } }],
+              [Op.and]: [
+                { checkinTime: { [Op.gte]: `${hour}:00:00` } },
+                { checkinTime: { [Op.lt]: `${hourC}:00:00` } },
+              ],
             },
             {
-              [Op.and]: [{ reservationTime: { [Op.gte]: `${hour}:00:00` } }, { reservationTime: { [Op.lt]: `${hourC}:00:00` } }],
+              [Op.and]: [
+                { reservationTime: { [Op.gte]: `${hour}:00:00` } },
+                { reservationTime: { [Op.lt]: `${hourC}:00:00` } },
+              ],
             },
           ],
         },
@@ -498,12 +625,18 @@ async function checkSlotGym(reservationDate, reservationTime, userId) {
     },
   });
 
-  let checkMemberHasReservationNow = dataSlotNow.find((el) => el.userId === userId);
+  let checkMemberHasReservationNow = dataSlotNow.find(
+    (el) => el.userId === userId
+  );
   // let checkMemberHasReservatioNext = dataSlotNow.find(el => el.userId === userId )
 
   let limit = Number(reservationTime.slice(0, 2)) < batasJamPrivateGym ? 1 : 23;
 
-  if ((dataSlotNow.length >= limit || dataSlotNext.length >= limit) && !checkMemberHasReservationNow) return false;
+  if (
+    (dataSlotNow.length >= limit || dataSlotNext.length >= limit) &&
+    !checkMemberHasReservationNow
+  )
+    return false;
   else return true;
 }
 
